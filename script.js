@@ -1,6 +1,11 @@
 
 let api_key = '0d6fc040f89c1c2bf1fce7cce7e72f34';
-
+let cityNames = document.querySelectorAll('.city_name');
+let temperature = document.querySelectorAll('.temperature');
+let description = document.querySelectorAll('.description');
+let weatherIcons = document.querySelectorAll('.w_icon');
+let wind = document.querySelectorAll('.wind');
+let date = document.querySelectorAll('.date');
 
 
 function getWeather() {
@@ -11,11 +16,17 @@ function getWeather() {
         .then(function (resp) { return resp.json() })
         .then(function (data) {
             console.log(data);
-            document.querySelector('.city_name').innerHTML = data.city.name;
-            document.querySelector('.temperature').innerHTML = Math.round(data.list[0].main.temp) + '&deg;';
-            document.querySelector('.description').innerHTML = data.list[0].weather[0]['description'];
-            document.querySelector('.w_icon').setAttribute('src', `/img/${data.list[0].weather[0]['icon']}.png`)
-            document.querySelector('.wind').innerHTML = `Скорость ветра - ${Math.round(data.list[0].wind.speed)} м/с`;
+            let k = 0;
+            for (let i = 0; i < cityNames.length; i++) {
+                cityNames[i].innerHTML = data.city.name;
+                temperature[i].innerHTML = Math.round(data.list[k].main.temp) + '&deg;';
+                description[i].innerHTML = data.list[i].weather[0]['description'];
+                weatherIcons[i].setAttribute('src', `/img/${data.list[k].weather[0]['icon']}.png`);
+                wind[i].innerHTML = `Скорость ветра:  ${Math.round(data.list[k].wind.speed)} м/с`;
+                if (k == 0) date[i].innerHTML = 'Сейчас';
+                else date[i].innerHTML = data.list[k].dt_txt;
+                k += 8;
+            }
         })
         .catch(function () {
 
@@ -24,3 +35,4 @@ function getWeather() {
 
 window.addEventListener('load', getWeather);
 document.querySelector('.city').addEventListener('change', (event) => { getWeather() })
+
