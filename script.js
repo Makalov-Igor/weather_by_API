@@ -6,16 +6,25 @@ let description = document.querySelectorAll('.description');
 let weatherIcons = document.querySelectorAll('.w_icon');
 let wind = document.querySelectorAll('.wind');
 let date = document.querySelectorAll('.date');
+let city_name = 'Moscow';
+let all_city = document.querySelectorAll('.city');
 
+for (let key in all_city) {
+    all_city[key].onchange = getWeather;
+}
 
 function getWeather() {
-    let city_name = document.querySelector('.city').value;
+    for (let i = 0; i < all_city.length; i++) {
+        if (all_city[i].checked) {
+            city_name = all_city[i].value;
+        }
+    }
     let api_url = `https://api.openweathermap.org/data/2.5/forecast?q=${city_name}&appid=${api_key}&units=metric&lang=ru`;
-    console.log(city_name);
+
     fetch(api_url)
         .then(function (resp) { return resp.json() })
         .then(function (data) {
-            console.log(data);
+            // console.log(data);
             let k = 0;
             for (let i = 0; i < cityNames.length; i++) {
                 cityNames[i].innerHTML = data.city.name;
@@ -34,5 +43,5 @@ function getWeather() {
 }
 
 window.addEventListener('load', getWeather);
-document.querySelector('.city').addEventListener('change', (event) => { getWeather() })
+
 
