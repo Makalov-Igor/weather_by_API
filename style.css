@@ -1,7 +1,7 @@
 body{
     height: auto;
     font-family: 'Ubuntu', sans-serif;
-    background-image: url('/img/bg-image.jpg');
+    background-image: url('img/bg-image.jpg');
     color:white;
    
 }
